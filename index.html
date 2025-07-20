@@ -1,44 +1,25 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Absensi QR</title>
-  <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    body { font-family: sans-serif; text-align: center; background: #f5f5f5; }
-    #reader { width: 300px; margin: auto; }
-    h1 { margin-top: 30px; }
-  </style>
+<html lang="id">
+  <head>
+    <meta charset="UTF-M" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Absensi Diniyah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.10.0",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "xlsx": "https://esm.sh/xlsx@^0.18.5"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
-<body>
-  <h1>📲 Scan Kartu Kehadiran</h1>
-  <div id="reader"></div>
-  <p id="result"></p>
-
-  <script>
-    function sendToGoogleSheets(qrData) {
-      fetch("https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbx_puGjzhoaq9MHPyP_7_6mSBYm8c-RjonJvYWK4ZZI3XlUs-97wWFkkFfFLgUkm7Ow/exec/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: qrData, waktu: new Date().toISOString() })
-      }).then(() => {
-        document.getElementById("result").innerText = "✅ Kehadiran berhasil dicatat!";
-      }).catch(() => {
-        document.getElementById("result").innerText = "❌ Gagal mengirim data!";
-      });
-    }
-
-    function onScanSuccess(qrMessage) {
-      document.getElementById("result").innerText = "📦 Data: " + qrMessage;
-      sendToGoogleSheets(qrMessage);
-      html5QrcodeScanner.clear();
-    }
-
-    const html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader", { fps: 10, qrbox: 250 });
-    html5QrcodeScanner.render(onScanSuccess);
-  </script>
-</body>
+  <body class="bg-slate-50 text-slate-800">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
